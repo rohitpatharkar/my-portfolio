@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Professional Portfolio — LinkedIn Style</title>
+<style>
+  :root{
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --accent:#0b74de;
+    --accent-2:#00bfa6;
+    --glass: rgba(11,116,222,0.06);
+    --shadow: 0 6px 20px rgba(13,18,30,0.08);
+    --radius:12px;
+    --maxW:1100px;
+    --mono: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:var(--mono);
+    background:var(--bg);
+    color:#0b1220;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding:28px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .wrap{width:100%;max-width:var(--maxW);}
+
+  /* Header / top bar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:18px;
+  }
+  .brand{display:flex;gap:12px;align-items:center}
+  .brand .logo{
+    width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px;box-shadow:var(--shadow)
+  }
+  .brand h1{font-size:18px;margin:0}
+  .actions{display:flex;gap:10px;align-items:center}
+  .btn{
+    background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;
+    box-shadow:0 6px 18px rgba(11,116,222,0.12)
+  }
+  .btn.secondary{background:#fff;color:var(--accent);border:1px solid rgba(11,116,222,0.12);box-shadow:none}
+
+  /* layout */
+  .layout{display:grid;grid-template-columns:320px 1fr;gap:20px}
+  @media(max-width:900px){ .layout{grid-template-columns:1fr} .leftCol{order:2} .rightCol{order:1} }
+
+  /* left column */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+  }
+  .profile{
+    display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;
+  }
+  .avatar{
+    width:120px;height:120px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#4bd1d1);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;font-weight:700;box-shadow:0 8px 30px rgba(11,116,222,0.12)
+  }
+  .name{font-size:20px;font-weight:700}
+  .title{color:var(--muted);font-size:14px}
+  .loc{color:var(--muted);font-size:13px}
+
+  .contact-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .contact-item{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px}
+  .contact-item button{background:transparent;border:none;color:var(--accent);cursor:pointer;padding:0;font-weight:600}
+
+  .skills{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+  .skill-row{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .bar{background:#eef2f5;border-radius:10px;height:10px;overflow:hidden;margin-top:6px}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%}
+
+  .languages{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .lang{background:var(--glass);padding:6px 10px;border-radius:999px;color:var(--accent);font-weight:600;font-size:13px}
+
+  /* right column */
+  .headline{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .headline h2{margin:0}
+  .about{color:var(--muted);margin-top:10px;line-height:1.5}
+
+  .section{margin-bottom:18px}
+  .sec-title{display:flex;justify-content:space-between;align-items:center}
+  .sec-title h3{margin:0;font-size:16px}
+  .list{margin-top:12px;display:flex;flex-direction:column;gap:12px}
+
+  .exp-item{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(11,116,222,0.02),transparent);border:1px solid rgba(11,116,222,0.04)}
+  .exp-item h4{margin:0}
+  .exp-meta{color:var(--muted);font-size:13px;margin-top:6px}
+
+  .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+  .project{background:#fff;padding:12px;border-radius:10px;border:1px solid rgba(11,116,222,0.04);box-shadow:0 8px 20px rgba(11,116,222,0.03)}
+  .project h4{margin:0 0 6px 0}
+  .project p{color:var(--muted);font-size:13px}
+
+  .badge{display:inline-block;padding:6px 8px;background:var(--glass);border-radius:8px;color:var(--accent);font-weight:700;margin-right:6px;margin-top:6px;font-size:12px}
+
+  /* footer / contact form */
+  .contact-form{display:flex;flex-direction:column;gap:8px}
+  .contact-form input, .contact-form textarea{padding:10px;border-radius:8px;border:1px solid #e6edf3;background:#fbfdff}
+  .muted-small{color:var(--muted);font-size:13px}
+
+  /* utilities */
+  .row{display:flex;gap:12px;align-items:center}
+  small{color:var(--muted)}
+  .download{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:10px 12px;border-radius:10px;color:white;border:none;cursor:pointer;font-weight:700}
+
+  /* print-friendly */
+  @media print {
+    body{background:#fff;color:#000}
+    .topbar,.download,.btn{display:none}
+    .card{box-shadow:none;border:1px solid #ddd}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Top -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">RP</div>
+      <div>
+        <h1>Rohit Patharkar</h1>
+        <small class="muted-small">Full Stack Developer • Creative Technologist</small>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="downloadResume()">Download Resume</button>
+      <button class="btn secondary" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="layout">
+    <!-- Left Col -->
+    <div class="leftCol">
+      <div class="card profile">
+        <div class="avatar" id="avatar">RP</div>
+        <div class="name">Rohit Patharkar</div>
+        <div class="title">Full Stack Developer • React & Node.js</div>
+        <div class="loc">Pune, India • Available for remote/onsite</div>
+
+        <div class="contact-list">
+          <div class="contact-item"><svg width="16" height="16" viewBox="0 0 24 24" style="opacity:.7"><path fill="currentColor" d="M20 4H4v16h16V4zM3 2c-.6 0-1 .4-1 1v18c0 .6.4 1 1 1h18c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1H3z"></path></svg>&nbsp;<span class="muted-small">rohit@example.com</span>&nbsp;<button onclick="copyEmail()">Copy</button></div>
+          <div class="contact-item"><svg width="16" height="16" viewBox="0 0 24 24" style="opacity:.7"><path fill="currentColor" d="M6 2h12l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path></svg>&nbsp;<span class="muted-small">(+91) 98765 43210</span></div>
+          <div class="contact-item"><svg width="16" height="16" viewBox="0 0 24 24" style="opacity:.7"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v16l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>&nbsp;<span class="muted-small">www.example.com</span></div>
+        </div>
+
+        <div style="width:100%;margin-top:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Skills</strong><small class="muted-small">years</small>
+          </div>
+
+          <div class="skills">
+            <div>
+              <div class="skill-row"><div>JavaScript</div><div class="muted-small">6y</div></div>
+              <div class="bar"><i style="width:90%"></i></div>
+            </div>
+            <div>
+              <div class="skill-row"><div>React</div><div class="muted-small">4y</div></div>
+              <div class="bar"><i style="width:85%"></i></div>
+            </div>
+            <div>
+              <div class="skill-row"><div>Node.js</div><div class="muted-small">5y</div></div>
+              <div class="bar"><i style="width:82%"></i></div>
+            </div>
+            <div>
+              <div class="skill-row"><div>Python</div><div class="muted-small">3y</div></div>
+              <div class="bar"><i style="width:60%"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width:100%;margin-top:12px">
+          <strong>Languages</strong>
+          <div class="languages">
+            <span class="lang">English</span>
+            <span class="lang">Marathi</span>
+            <span class="lang">Hindi</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Education</strong>
+        <div class="list" style="margin-top:10px">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><b>B.Tech Computer Science</b><div class="muted-small">University of Pune • 2015 - 2019</div></div>
+              <div class="muted-small">First Class</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Certifications</strong>
+        <div class="list" style="margin-top:10px">
+          <div class="muted-small">AWS Certified Developer — Associate</div>
+          <div class="muted-small">Professional React Developer — Bootcamp</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Col -->
+    <div class="rightCol">
+      <div class="card">
+        <div class="headline">
+          <div>
+            <h2>About</h2>
+            <div class="muted-small">Creative Full Stack developer focused on building performant web apps, scalable APIs, and delightful user experiences. I love mentorship, writing clean code, and turning ideas into products.</div>
+          </div>
+          <div class="row">
+            <button class="download" onclick="downloadResume()">Download Resume</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="sec-title"><h3>Experience</h3><small class="muted-small">Selected roles</small></div>
+        <div class="list">
+          <div class="exp-item">
+            <h4>Senior Full Stack Developer — Velocity Labs</h4>
+            <div class="exp-meta">2022 — Present • Pune, India</div>
+            <div style="margin-top:8px;color:var(--muted)">Led frontend & backend for B2B analytics product. Rebuilt dashboard in React + TypeScript, improved load times by 3x, setup Node.js microservices, and mentored 6 engineers.</div>
+          </div>
+
+          <div class="exp-item">
+            <h4>Full Stack Developer — BluePixel</h4>
+            <div class="exp-meta">2019 — 2022 • Remote</div>
+            <div style="margin-top:8px;color:var(--muted)">Built e-commerce platform, payment integrations, unit-tested microservices, and implemented CI/CD pipelines.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="sec-title"><h3>Projects</h3><small class="muted-small">Live demos & repos</small></div>
+
+        <div class="project-grid">
+          <div class="project">
+            <h4>Mythic Devotion — Sanctuary App</h4>
+            <p>Interactive meditation & chant app with audio streaming, timers, and community wishes. (Demo)</p>
+            <div style="margin-top:8px"><span class="badge">React</span><span class="badge">Node</span></div>
+            <div style="margin-top:8px"><a href="#" onclick="openDemo()">Live demo</a> • <a href="#">Source</a></div>
+          </div>
+
+          <div class="project">
+            <h4>Productivity Hub</h4>
+            <p>Pomodoro + tasks + notes. Simple PWA with offline support and local data persistence.</p>
+            <div style="margin-top:8px"><span class="badge">PWA</span><span class="badge">IndexedDB</span></div>
+            <div style="margin-top:8px"><a href="#">Live demo</a> • <a href="#">Source</a></div>
+          </div>
+
+          <div class="project">
+            <h4>Aviator Demo Game</h4>
+            <p>Crash-style demo game prototype — canvas animations with betting simulator for study/learning only.</p>
+            <div style="margin-top:8px"><span class="badge">Canvas</span><span class="badge">JS</span></div>
+            <div style="margin-top:8px"><a href="#">Play</a> • <a href="#">Source</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="sec-title"><h3>Recommendations</h3><small class="muted-small">What teammates say</small></div>
+        <div style="margin-top:12px;color:var(--muted)">
+          <div style="margin-bottom:10px"><b>Ashwin P.</b> — “Rohit drove the frontend overhaul and improved performance massively.”</div>
+          <div><b>Neha M.</b> — “Trustworthy engineer and a thoughtful mentor.”</div>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="sec-title"><h3>Contact</h3><small class="muted-small">Let's connect</small></div>
+        <form id="contactForm" class="contact-form" onsubmit="handleContact(event)">
+          <input id="cname" placeholder="Your name" required />
+          <input id="cemail" placeholder="Your email" required />
+          <textarea id="cmessage" rows="4" placeholder="Message" required></textarea>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" type="submit">Send Message</button>
+            <small class="muted-small">or email: rohit@example.com</small>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <footer style="text-align:center;margin-top:22px;color:var(--muted);font-size:13px">
+    Built with ❤️ — Printable & PDF-friendly • Tip: use browser Print → Save as PDF
+  </footer>
+</div>
+
+<script>
+  // small interactive helpers
+  function copyEmail(){
+    navigator.clipboard?.writeText('rohit@example.com').then(()=> alert('Email copied to clipboard'));
+  }
+
+  function openDemo(){ alert('Open demo (link placeholder)'); }
+
+  function handleContact(e){
+    e.preventDefault();
+    const name = document.getElementById('cname').value;
+    const email = document.getElementById('cemail').value;
+    const msg = document.getElementById('cmessage').value;
+    // demo behavior: show a friendly message + prepare mailto
+    alert('Thanks '+name+' — demo only: opens mail client.');
+    const subject = encodeURIComponent('Portfolio message from '+name);
+    const body = encodeURIComponent(msg + '\n\nReply to: ' + email);
+    window.location.href = `mailto:rohit@example.com?subject=${subject}&body=${body}`;
+  }
+
+  // Download resume: generate a simple printable resume HTML and open print dialog
+  function downloadResume(){
+    // Create printable popup with minimal styles
+    const printHTML = `
+      <html><head><title>Resume - Rohit Patharkar</title>
+      <style>
+        body{font-family:Arial,Helvetica,sans-serif;padding:20px;color:#111}
+        h1{margin:0;font-size:22px}
+        h2{margin:8px 0 0 0;font-size:16px}
+        .muted{color:#666;font-size:13px}
+        .section{margin-top:14px}
+        .item{margin-bottom:8px}
+      </style>
+      </head><body>
+      <h1>Rohit Patharkar</h1>
+      <div class="muted">Full Stack Developer • React / Node.js • Pune, India</div>
+      <div class="section">
+        <h2>Summary</h2>
+        <div class="item">Creative developer experienced in building scalable web apps and APIs. Passion for UX and mentoring.</div>
+      </div>
+      <div class="section">
+        <h2>Experience</h2>
+        <div class="item"><b>Senior Full Stack Developer</b> — Velocity Labs (2022–Present)</div>
+        <div class="item"><b>Full Stack Developer</b> — BluePixel (2019–2022)</div>
+      </div>
+      <div class="section">
+        <h2>Education</h2>
+        <div class="item">B.Tech Computer Science — University of Pune (2015–2019)</div>
+      </div>
+      <div class="section">
+        <h2>Skills</h2>
+        <div class="item">JavaScript, React, Node.js, TypeScript, Python, AWS</div>
+      </div>
+      <div style="margin-top:18px" class="muted">Generated from portfolio • ${new Date().toLocaleDateString()}</div>
+      </body></html>
+    `;
+    const w = window.open('', '_blank');
+    w.document.open();
+    w.document.write(printHTML);
+    w.document.close();
+    setTimeout(()=> w.print(), 500);
+  }
+
+  // Theme toggle (light/dark) - demo
+  let dark = true;
+  function toggleTheme(){
+    if(dark){
+      document.documentElement.style.setProperty('--bg','#0b1220');
+      document.documentElement.style.setProperty('--card','#0b1220');
+      document.documentElement.style.setProperty('--muted','#9aa3b2');
+      document.body.style.background = 'linear-gradient(135deg,#05070a,#081029)';
+    } else {
+      document.documentElement.style.setProperty('--bg','#f4f6f8');
+      document.documentElement.style.setProperty('--card','#fff');
+      document.documentElement.style.setProperty('--muted','#6b7280');
+      document.body.style.background = 'linear-gradient(135deg, #1e1e2f, #2b2b3e)';
+    }
+    dark = !dark;
+  }
+
+  // small animation: fill skill bars on load
+  window.addEventListener('load', ()=>{
+    document.querySelectorAll('.bar > i').forEach((el,i)=>{
+      const w = el.style.width || '60%';
+      el.style.width = '0%';
+      setTimeout(()=> el.style.width = w, 300 + i*150);
+    });
+  });
+</script>
+</body>
+</html>
